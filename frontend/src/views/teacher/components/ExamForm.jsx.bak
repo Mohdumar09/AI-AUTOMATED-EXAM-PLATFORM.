@@ -1,0 +1,243 @@
+import React from 'react';
+import {
+  Box,
+  Typography,
+  Button,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Stack,
+} from '@mui/material';
+import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
+import CodingQuestionForm from './CodingQuestionForm';
+
+const CreateExam = ({ formik, title, subtitle, subtext }) => {
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } = formik;
+
+  return (
+    <Box>
+      {title ? (
+        <Typography fontWeight="700" variant="h2" mb={1}>
+          {title}
+        </Typography>
+      ) : null}
+
+      {subtext}
+
+      <Box component="form" onSubmit={handleSubmit}>
+        <Stack mb={3}>
+          <CustomTextField
+            id="examName"
+            name="examName"
+            label="Exam Name"
+            variant="outlined"
+            fullWidth
+            value={values.examName}
+            onChange={handleChange}
+            error={touched.examName && Boolean(errors.examName)}
+            helperText={touched.examName && errors.examName}
+          />
+        </Stack>
+
+        <Stack mb={3}>
+          <FormControl fullWidth>
+            <InputLabel id="examType-label">Exam Type</InputLabel>
+            <Select
+              labelId="examType-label"
+              id="examType"
+              name="examType"
+              value={values.examType}
+              label="Exam Type"
+              onChange={handleChange}
+              error={touched.examType && Boolean(errors.examType)}
+            >
+              <MenuItem value="mcq">MCQ Only</MenuItem>
+              <MenuItem value="mcq+coding">MCQ + Coding</MenuItem>
+            </Select>
+            {touched.examType && errors.examType && (
+              <Typography color="error" variant="caption" sx={{ mt: 1 }}>
+                {errors.examType}
+              </Typography>
+            )}
+          </FormControl>
+        </Stack>
+
+        <Stack mb={3}>
+          <CustomTextField
+            id="totalQuestions"
+            name="totalQuestions"
+            label="Total Number of Questions"
+            variant="outlined"
+            fullWidth
+            value={values.totalQuestions}
+            onChange={handleChange}
+            error={touched.totalQuestions && Boolean(errors.totalQuestions)}
+            helperText={touched.totalQuestions && errors.totalQuestions}
+          />
+        </Stack>
+
+        <Stack mb={3}>
+          <CustomTextField
+            id="duration"
+            name="duration"
+            label="Exam Duration (in minutes)"
+            variant="outlined"
+            fullWidth
+            value={values.duration}
+            onChange={handleChange}
+            error={touched.duration && Boolean(errors.duration)}
+            helperText={touched.duration && errors.duration}
+          />
+        </Stack>
+
+        <Stack mb={3}>
+          <TextField
+            id="liveDate"
+            name="liveDate"
+            label="Live Date and Time"
+            type="datetime-local"
+            value={values.liveDate}
+            onChange={handleChange}
+            fullWidth
+            InputLabelProps={{
+              shrink: true,
+            }}
+            error={touched.liveDate && Boolean(errors.liveDate)}
+            helperText={touched.liveDate && errors.liveDate}
+          />
+        </Stack>
+
+        <Stack mb={3}>
+          <TextField
+            id="deadDate"
+            name="deadDate"
+            label="Dead Date and Time"
+            type="datetime-local"
+            value={values.deadDate}
+            onChange={handleChange}
+            fullWidth
+            InputLabelProps={{
+              shrink: true,
+            }}
+            error={touched.deadDate && Boolean(errors.deadDate)}
+            helperText={touched.deadDate && errors.deadDate}
+          />
+        </Stack>
+
+        {/* Only show coding question form if exam type is mcq+coding */}
+        {values.examType === 'mcq+coding' && (
+          <CodingQuestionForm
+            values={values.codingQuestion}
+            handleChange={handleChange}
+            errors={errors.codingQuestion}
+            touched={touched.codingQuestion}
+          />
+        )}
+
+        <Box mt={3}>
+          <Button color="primary" variant="contained" fullWidth type="submit" onClick={handleSubmit}>
+            Create Exam
+          </Button>
+        </Box>
+              label="Exam Type"
+              onChange={handleChange}
+              error={touched.examType && Boolean(errors.examType)}
+            >
+              <MenuItem value="mcq">MCQ Only</MenuItem>
+              <MenuItem value="mcq+coding">MCQ + Coding</MenuItem>
+            </Select>
+            {touched.examType && errors.examType && (
+              <Typography color="error" variant="caption" sx={{ mt: 1 }}>
+                {errors.examType}
+              </Typography>
+            )}
+          </FormControl>
+        </Stack>
+
+        <Stack mb={3}
+          <CustomTextField
+            id="totalQuestions"
+            name="totalQuestions"
+            label="Total Number of Questions"
+            variant="outlined"
+            fullWidth
+            value={values.totalQuestions}
+            onChange={handleChange}
+            error={touched.totalQuestions && Boolean(errors.totalQuestions)}
+            helperText={touched.totalQuestions && errors.totalQuestions}
+          />
+        </Stack>
+
+        <Stack mb={3}>
+          <CustomTextField
+            id="duration"
+            name="duration"
+            label="Exam Duration (minutes)"
+            variant="outlined"
+            fullWidth
+            value={values.duration}
+            onChange={handleChange}
+            error={touched.duration && Boolean(errors.duration)}
+            helperText={touched.duration && errors.duration}
+          />
+        </Stack>
+
+        <Stack mb={3}>
+          <CustomTextField
+            id="liveDate"
+            name="liveDate"
+            label="Live Date and Time"
+            type="datetime-local"
+            variant="outlined"
+            fullWidth
+            value={values.liveDate}
+            onChange={handleChange}
+            error={touched.liveDate && Boolean(errors.liveDate)}
+            helperText={touched.liveDate && errors.liveDate}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </Stack>
+
+        <Stack mb={3}>
+          <CustomTextField
+            id="deadDate"
+            name="deadDate"
+            label="Dead Date and Time"
+            type="datetime-local"
+            variant="outlined"
+            fullWidth
+            value={values.deadDate}
+            onChange={handleChange}
+            error={touched.deadDate && Boolean(errors.deadDate)}
+            helperText={touched.deadDate && errors.deadDate}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </Stack>
+
+        <CodingQuestionForm formik={formik} />
+
+        <Button
+          color="primary"
+          variant="contained"
+          size="large"
+          fullWidth
+          type="submit"
+          disabled={formik.isSubmitting}
+          onClick={handleSubmit}
+        >
+          Create Exam
+        </Button>
+      </Box>
+
+      {subtitle}
+    </>
+  );
+};
+
+export default CreateExam;
